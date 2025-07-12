@@ -1,0 +1,29 @@
+# Check out https://taskfile.dev for more information.
+version: '3'
+tasks:
+  default:
+    cmds:
+      - task --list
+    silent: true
+
+  clean:
+    desc: "Remove all `.terraform` caches recursively"
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - find . -name ".terraform" -type d -print0 | xargs -0 rm -rf
+    silent: false
+
+  summary:
+    desc: "Show a summary of the current plan"
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - tf plan | (grep -E "(will|must) be" || true)
+    silent: true
+
+  docs:
+    desc: "Runs terraform-docs"
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - terraform-docs markdown table --output-file README.md --output-mode inject .
+    silent: false
+
