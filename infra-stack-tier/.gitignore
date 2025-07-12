@@ -1,6 +1,9 @@
 # Local .terraform directories
 **/.terraform/
 
+# These don't need lockfiles since they're not called directly
+.terraform.lock.hcl
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
