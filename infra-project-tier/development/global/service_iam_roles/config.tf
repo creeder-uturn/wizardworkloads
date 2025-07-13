@@ -1,8 +1,9 @@
 locals {
   # Static state and project details
   environment = "development"
-  region      = "us-east-1"
-  state_path  = "network" # Path to the current folder within region, no trailing /
+  region      = "us-east-1" # Global projects still need a region for the AWS Provider
+
+  state_path = "global/service_iam_roles" # Because this one is global, we prefix it with global
 
   default_tags = {
     ManagedBy   = "OpenTofu"

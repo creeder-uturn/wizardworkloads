@@ -2,7 +2,7 @@ locals {
   # Static state and project details
   environment = "development"
   region      = "us-east-1"
-  state_path  = "network" # Path to the current folder within region, no trailing /
+  state_path  = "website_service" # Path to the current folder within region, no trailing /
 
   default_tags = {
     ManagedBy   = "OpenTofu"

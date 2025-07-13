@@ -26,8 +26,17 @@ module "vpc" {
   # Calculate which AZs to use based on the number of AZs specified
   azs = slice(data.aws_availability_zones.available.names, 0, var.number_of_azs)
 
-  private_subnets = local.private_subnets_cidrs
-  public_subnets  = local.public_subnets_cidrs
+  private_subnets         = local.private_subnets_cidrs
+  public_subnets          = local.public_subnets_cidrs
+  map_public_ip_on_launch = true
+
+  private_subnet_tags = {
+    Tier = "Private"
+  }
+
+  public_subnet_tags = {
+    Tier = "Public"
+  }
 
   enable_nat_gateway = true
 
