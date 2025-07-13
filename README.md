@@ -1,35 +1,35 @@
 # The Wizard’s Guide to Well-Architected IaC Workloads
 
-This is the companion repository to the presentation given by Craig Reeder.
+This repository accompanies the presentation by Craig Reeder.
+
+## Additional Reading
+- [Links & Additional Reading](Links.md)
+- [Additional Tools](./Additional%20Tools.md)
 
 ## Structure
-Imagine this repository is multiple repositories (I've included everything here to make it concise and easy to share or follow).
 
-- infra-project-tier
-This represents the project tier of the Three-Tier architecture laid out in the presentation. Ideally, this would reference a separate stack repository with a version tag, but I have instead made it self-reference this repository on it's release tag.
+This repository is organized as if it were multiple repositories, combined here for simplicity and ease of sharing.
 
-- infra-stack-tier
-This represents the stack tier of the Three-Tier architecture laid out in presentation.
+- **infra-project-tier**
 
-Depending on your needs, you may additionally maintain an infra-modules-tier repository and TF modules for your modules tier. In this case, I have deferred to using the publicly available "Terraform AWS Modules" as this keeps simplicity low for an example.
+  Represents the project tier of the Three-Tier architecture described in the presentation. Ideally, this would reference a separate stack repository with a version tag, but for this example, it self-references this repository using its release tag.
+
+- **infra-stack-tier**
+
+  Represents the stack tier of the Three-Tier architecture.
+
+Depending on your needs, you may also maintain an `infra-modules-tier` repository and custom OpenTofu/Terraform modules for your modules tier. In this example, I use the publicly available "Terraform AWS Modules" to keep things simple.
 
 ## Remote State
-I have chosen not to use remote state for the example to keep it simple, however you should use remote state in your projects when doing them for real. Generally, I recommend keeping the remote state configuration in `config.tf` of the project. I've included a placeholder for where I'd put it.
 
-If you are using OpenTofu, keep in mind you can use the new feature to specify backend using locals - I make heavy usage of this reduce my modifications per project configuration down to 4 lines.
+For simplicity, remote state is not used in this example. In real projects, you should always use remote state to manage your OpenTofu/Terraform state files securely and collaboratively. I recommend keeping the remote state configuration in the `config.tf` file of each project. A placeholder is included to illustrate this configuration.
 
-## Additional Tools
-Here's a list of additional tools I like to use when operating on TF on a daily basis.
+If you are using OpenTofu, you can leverage the new feature to specify the backend using locals. I use this extensively to reduce per-project configuration changes to just four lines.
 
-<!-- TODO: Fill out tools
-- tenv
-- awsp
--->
+## Note on .gitignore
 
-<!-- TODO: Goals
-- Contains example code of some stacks and projects
-- Uses the Terraform AWS Modules open-source modules
-- Contains a lot of the boilerplate repository cruft I usually include
-- Contains a write-up of additional CLI tools I like to use in my developer environment
-- Contains a PDF of this presentation
-- Squash all commits once done -->
+The `.gitignore` files in the project tier and stack tier are slightly different. In the project tier, `.terraform.lock.hcl` should not be ignored, as it provides important information about which provider versions are known to work with the project.
+
+However, at the stack and module tiers, the lock file is only used when running an init for validation or development purposes. In these cases, I recommend clearing them regularly and not including them in the repository. This means each time you run `tf init`, you will get the newest valid provider - which is desirable, as it helps you learn if a new provider version breaks anything for you.
+
+You can upgrade your provider versions by using `tf init -upgrade`.
